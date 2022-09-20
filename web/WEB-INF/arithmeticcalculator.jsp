@@ -13,11 +13,15 @@
     </head>
     <body>
         <h1>Arithmetic Calculator</h1>
-        <form action="age" method="post">
-            First: <input type="number" name="first" value="${first}"><br>
-            Second <input type="number" name="second" value="${second}"><br>
-            <input type="submit" value="Age next birthday">
+        <form action="arithmetic" method="post">
+            First: <input type="number" name="first"><br>
+            Second <input type="number" name="second"><br>
+            <button type="submit" value="add" name="button">+</button>
+            <button type="submit" value="subtract" name="button">-</button>
+            <button type="submit" value="multiply" name="button">*</button>
+            <button type="submit" value="modulus" name="button">%</button>
         </form>
-        <p>Result: --- ${message}</p>
+        <p>Result: ${result}</p>
+        <a href="agecalculator.jsp">Age Calculator</a>
     </body>
 </html>

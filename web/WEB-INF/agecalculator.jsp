@@ -18,5 +18,6 @@
             <button type="submit">Calculate</button>
         </form>
         <p>${message}</p>
+        <a href="/arithmetic">Arithmetic Calculator</a>
     </body>
 </html>
