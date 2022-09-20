@@ -39,7 +39,6 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
 
         // validation: if the parameters don't exist or are empty, show the first page again
         if (first == null || first.equals("") || second == null || second.equals("")) {
-            
             result = "invalid";
             // set an attribute for a message
             request.setAttribute("result", result);

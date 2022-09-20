@@ -38,8 +38,11 @@ public class AgeCalculatorServlet extends HttpServlet {
                 theAge = theAge + 1;
                 String result = "Your age next birthday will be " + theAge;
                 request.setAttribute("message", result);
-            } else {
+            } else if (theAge < 0 || theAge > 150) {
                 request.setAttribute("message", "You must give your current age.");
+            } 
+            else {
+                request.setAttribute("message", "You must enter a number.");
             }
         }
 
