@@ -23,8 +23,14 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String result = "---";
+        request.setAttribute("result", result);
+        
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
                 .forward(request, response);
+        
+        
     }
 
     @Override
@@ -37,36 +43,45 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         String button = request.getParameter("button");
         String result = "---";
 
-        // validation: if the parameters don't exist or are empty, show the first page again
-        if (first == null || first.equals("") || second == null || second.equals("")) {
-            result = "invalid";
-            // set an attribute for a message
-            request.setAttribute("result", result);
-        } else {
-            int firstNum = Integer.parseInt(first);
-            int secondNum = Integer.parseInt(second);
-            double ans = 0;
+        try {
 
-            if (button.equals("add")) {
-                ans = firstNum + secondNum;
-                result = "" + ans;
-            } else if (button.equals("subtract")) {
-                ans = firstNum - secondNum;
-                result = "" + ans;
-            } else if (button.equals("multiply")) {
-                ans = firstNum * secondNum;
-                result = "" + ans;
-            } else if (button.equals("modulus")) {
-                ans = firstNum % secondNum;
-                result = "" + ans;
-            } else {
+            // validation: if the parameters don't exist or are empty, show the first page again
+            if (first == null || first.equals("") || second == null || second.equals("")) {
                 result = "invalid";
+                // set an attribute for a message
+                request.setAttribute("result", result);
+            } else {
+                int firstNum = Integer.parseInt(first);
+                int secondNum = Integer.parseInt(second);
+                int ans = 0;
+
+                if (button.equals("add")) {
+                    ans = firstNum + secondNum;
+                    result = "" + ans;
+                } else if (button.equals("subtract")) {
+                    ans = firstNum - secondNum;
+                    result = "" + ans;
+                } else if (button.equals("multiply")) {
+                    ans = firstNum * secondNum;
+                    result = "" + ans;
+                } else if (button.equals("modulus")) {
+                    ans = firstNum % secondNum;
+                    result = "" + ans;
+                } else {
+                    result = "invalid";
+                }
+                request.setAttribute("result", result);
             }
-            request.setAttribute("result", result);
+
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
+                    .forward(request, response);
+
+        } catch (NumberFormatException numE) {
+            request.setAttribute("result", "invalid");
+        } catch (Exception e) {
+            request.setAttribute("result", "invalid");
         }
 
-        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
-                .forward(request, response);
     }
 
 }

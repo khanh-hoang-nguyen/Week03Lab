@@ -26,24 +26,33 @@ public class AgeCalculatorServlet extends HttpServlet {
 
         // get the two parameters from the POST request
         String age = request.getParameter("age");
+        
+        request.setAttribute("age", age);
 
-        // validation: if the parameters don't exist or are empty, show the first page again
-        if (age == null || age.equals("")) {
-            // set an attribute for a message
-            request.setAttribute("message", "Please enter your age");
-        } else {
-            int theAge = Integer.parseInt(age);
-            
-            if (theAge >= 0 && theAge <= 150) {
-                theAge = theAge + 1;
-                String result = "Your age next birthday will be " + theAge;
-                request.setAttribute("message", result);
-            } else if (theAge < 0 || theAge > 150) {
-                request.setAttribute("message", "You must give your current age.");
-            } 
-            else {
+        try {
+            // validation: if the parameters don't exist or are empty, show the first page again
+            if (age == null || age.equals("")) {
+                // set an attribute for a message
                 request.setAttribute("message", "You must enter a number.");
+            } else {
+                int theAge = Integer.parseInt(age);
+
+                if (theAge >= 0 && theAge <= 150) {
+                    theAge = theAge + 1;
+                    String result = "Your age next birthday will be " + theAge;
+                    request.setAttribute("message", result);
+                } else if (theAge < 0 || theAge > 150) {
+                    request.setAttribute("message", "You must give your current age.");
+                }
             }
+
+            getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp")
+                    .forward(request, response);
+
+        } catch (NumberFormatException numE) {
+            request.setAttribute("message", "You must enter a number.");
+        } catch (Exception e) {
+            request.setAttribute("message", "You must enter a number.");
         }
 
         getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp")
