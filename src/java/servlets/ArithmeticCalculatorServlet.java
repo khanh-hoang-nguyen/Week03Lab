@@ -19,17 +19,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ArithmeticCalculatorServlet", urlPatterns = {"/arithmetic"})
 public class ArithmeticCalculatorServlet extends HttpServlet {
+    
+    private static String result ="---";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String result = "---";
         request.setAttribute("result", result);
         
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
                 .forward(request, response);
-        
         
     }
 
@@ -39,13 +39,14 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
 
         String first = request.getParameter("first");
         String second = request.getParameter("second");
+        
+        request.setAttribute("first", first);
+        request.setAttribute("second", second);
 
         String button = request.getParameter("button");
-        String result = "---";
 
         try {
-
-            // validation: if the parameters don't exist or are empty, show the first page again
+            
             if (first == null || first.equals("") || second == null || second.equals("")) {
                 result = "invalid";
                 // set an attribute for a message
@@ -57,22 +58,19 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
 
                 if (button.equals("add")) {
                     ans = firstNum + secondNum;
-                    result = "" + ans;
                 } else if (button.equals("subtract")) {
                     ans = firstNum - secondNum;
-                    result = "" + ans;
                 } else if (button.equals("multiply")) {
                     ans = firstNum * secondNum;
-                    result = "" + ans;
                 } else if (button.equals("modulus")) {
                     ans = firstNum % secondNum;
-                    result = "" + ans;
                 } else {
                     result = "invalid";
                 }
+                result = "" + ans;
                 request.setAttribute("result", result);
             }
-
+            
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
                     .forward(request, response);
 
@@ -81,7 +79,10 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("result", "invalid");
         }
-
+        
+        // show the page again when exception causes
+        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp")
+                    .forward(request, response);
     }
 
 }
